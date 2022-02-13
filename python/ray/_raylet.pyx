@@ -868,10 +868,13 @@ cdef CRayStatus check_signals() nogil:
 
 
 cdef void gc_collect() nogil:
+    logger.info("dbg gc.collect() before GIL")
     with gil:
+        logger.info("dbg gc.collect() after GIL")
         start = time.perf_counter()
         num_freed = gc.collect()
         end = time.perf_counter()
+        logger.info("dbg gc.collect() done")
         if num_freed > 0:
             logger.debug(
                 "gc.collect() freed {} refs in {} seconds".format(
